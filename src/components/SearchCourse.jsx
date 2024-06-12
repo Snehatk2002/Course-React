@@ -9,18 +9,34 @@ const SearchCourse = () => {
         }
     )
     const [result, setResult] = useState([])
+
+    // delete event handling
+    const deleteCourse = (id) => {
+        let input={ "_id":id}
+        axios.post("http://localhost:8080/delete",input).then(
+            (response)=>{
+                console.log(response.data)
+                if (response.data.status=="success") {
+                    alert("SUCCESSFULLY DELETED")
+                } else {
+                    alert("ERROR IN DELETION")
+                }
+            }
+        ).catch()
+    }
     const inputHandler = (event) => {
         setdata({ ...data, [event.target.name]: event.target.value })
     }
+    // search button event
     const readValue = () => {
         console.log(data)
-        axios.post("http://localhost:8080/search",data).then(
-            (response)=>{
+        axios.post("http://localhost:8080/search", data).then(
+            (response) => {
                 console.log(response.data)
                 setResult(response.data)
             }
         ).catch(
-            (error)=>{
+            (error) => {
                 console.log("error")
             }
         ).finally()
@@ -56,18 +72,21 @@ const SearchCourse = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       {result.map(
-                                        (value,index)=>{
-                                            return  <tr>
-                                            <th scope="row">{value.coursetitle}</th>
-                                            <td>{value.description}</td>
-                                            <td>{value.coursedate}</td>
-                                            <td>{value.duration}</td>
-                                            <td>{value.venue}</td>
-                                            <td>{value.trainername}</td>
-                                        </tr>
-                                        }
-                                       )}
+                                        {result.map(
+                                            (value, index) => {
+                                                return <tr>
+                                                    <th scope="row">{value.coursetitle}</th>
+                                                    <td>{value.description}</td>
+                                                    <td>{value.coursedate}</td>
+                                                    <td>{value.duration}</td>
+                                                    <td>{value.venue}</td>
+                                                    <td>{value.trainername}</td>
+                                                    <td>
+                                                        <button class="btn btn-danger" onClick={()=>{deleteCourse(value._id)}}>DELETE</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        )}
                                     </tbody>
                                 </table>
                             </div>

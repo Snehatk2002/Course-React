@@ -5,6 +5,7 @@ import SearchCourse from './components/SearchCourse';
 import ViewCourse from './components/ViewCourse';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+
 function App() {
   return (
     <BrowserRouter>
